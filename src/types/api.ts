@@ -3,7 +3,7 @@ interface Location {
   url?: string
 }
 
-export interface Result {
+export interface Character {
   id?: number
   name?: string
   status?: 'Alive' | 'Dead' | 'unknown'
@@ -27,5 +27,12 @@ interface Info {
 
 export interface Characters {
   info?: Info
-  results?: Result[]
+  results?: Character[]
+}
+
+export enum Status {
+  idle = 'idle',
+  pending = 'pending',
+  rejected = 'rejected',
+  fulfilled = 'fulfilled',
 }
