@@ -26,7 +26,7 @@ const useCharacterStore = create(
       },
     }),
     {
-      name: 'food-storage', // unique name
+      name: 'character-store', // unique name
     }
   )
 )
