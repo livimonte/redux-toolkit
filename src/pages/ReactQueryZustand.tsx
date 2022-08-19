@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -6,15 +6,16 @@ import { getCharacters, useCharactersQuery } from '../hooks/useCharactersQuery';
 import { Character } from '../types/api';
 import { ButtonPagination, Loading, LoadingIcon, StarIcon } from '../utils/ui';
 import { useCharacterStore } from '../app/zustandStore';
+import { useDebounce } from '../hooks/useDebounce';
 
 const ReactQueryZustand = () => {
-  const [page, setPage] = useState(1);
-  const [showLiked, setShowLiked] = useState(false);
+  const [page, setPage] = useState(1); // React Local State
+  const [showLiked, setShowLiked] = useState(false); // React Local State
+  const [searchFilter, setSearchFilter] = useState(''); // React Local State
 
-  const queryClient = useQueryClient();
-  const { data, isLoading, isError, isFetching, isPreviousData } = useCharactersQuery(page);
+  const queryClient = useQueryClient(); // React Query Client
 
-  const { liked, likeCharacter } = useCharacterStore()
+  const { liked, likeCharacter } = useCharacterStore() // Zustand Client State
 
   const handlePrevPage = () => {
     setPage(prev => Math.max(prev - 1, 1));
@@ -26,6 +27,17 @@ const ReactQueryZustand = () => {
     }
   };
 
+  const handleSearchCharacter = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const { value } = target
+
+    setSearchFilter(value)
+  }
+
+  const debouncedSearch = useDebounce(searchFilter, 400);
+
+  const { data, isLoading, isError, isFetching, isPreviousData } = useCharactersQuery(page, debouncedSearch); // React Query Server State
+
+  // Prefetch Next Page
   useEffect(() => {
     if (data?.info?.next) {
       queryClient.prefetchQuery(['characters', page + 1], () => getCharacters(page + 1));
@@ -54,7 +66,7 @@ const ReactQueryZustand = () => {
           <h1 className='px-5 mb-2 font-bold text-2xl'>Playing with React Query and Zustand!</h1>
           <header className='flex justify-between bg-slate-500 w-full p-5 rounded-2xl mb-4'>
             <div className='w-1/2'>
-              <input type='text' placeholder='Search' className='py-2 px-5 rounded-xl w-full' />
+              <input type='text' placeholder='Search' className='py-2 px-5 rounded-xl w-full' onChange={handleSearchCharacter} />
             </div>
             <div className='px-2 text-white flex gap-2 place-items-center'>Likes: {liked.length}
               <button className='border rounded p-2' onClick={() => setShowLiked(oldState => !oldState)}>
