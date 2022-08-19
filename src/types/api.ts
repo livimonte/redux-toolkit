@@ -4,7 +4,7 @@ interface Location {
 }
 
 export interface Character {
-  id?: number
+  id: number
   name?: string
   status?: 'Alive' | 'Dead' | 'unknown'
   species?: 'Alien' | 'Human'

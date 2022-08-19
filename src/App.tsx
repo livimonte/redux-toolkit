@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-do
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { store } from './app/store';
-import { ReactQuery } from './pages/ReactQuery';
+import { ReactQueryZustand } from './pages/ReactQueryZustand';
 import { Redux } from './pages/Redux';
 
 const queryClient = new QueryClient();
@@ -26,19 +26,19 @@ export function App() {
               Redux
             </NavLink>
             <NavLink
-              to='/react-query'
+              to='/react-query-zustand'
               className={({ isActive }) =>
                 `border border-blue-500 text-white p-2 rounded ${
                   isActive && 'bg-blue-500 hover:filter hover:brightness-75'
                 } hover:bg-blue-500 transition-all duration-200`
               }
             >
-              React Query
+              React Query + Zustand
             </NavLink>
           </nav>
           <Routes>
             <Route path='/redux' element={<Redux />} />
-            <Route path='/react-query' element={<ReactQuery />} />
+            <Route path='/react-query-zustand' element={<ReactQueryZustand />} />
           </Routes>
         </Router>
       </Provider>
