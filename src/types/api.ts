@@ -4,7 +4,7 @@ interface Location {
 }
 
 export interface Character {
-  id?: number
+  id: number
   name?: string
   status?: 'Alive' | 'Dead' | 'unknown'
   species?: 'Alien' | 'Human'
@@ -35,4 +35,13 @@ export enum Status {
   pending = 'pending',
   rejected = 'rejected',
   fulfilled = 'fulfilled',
+}
+
+export interface ListParams {
+  page: number
+  search?: string
+}
+
+export interface LikedCharacters {
+  id: number
 }

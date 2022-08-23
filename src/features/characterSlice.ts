@@ -1,54 +1,29 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
-import { Character, Status } from '../types/api'
-
-const REDUCER_NAME = 'characters'
-const BASE_URL = 'https://rickandmortyapi.com/api/'
-const FETCH_CHARACTERS = 'characters/fetchCharacters'
+import { LikedCharacters } from '../types/api'
 
 interface CharacterState {
-  characters: Character[]
-  status: Status
+  characters: LikedCharacters[]
 }
 
 const initialState: CharacterState = {
   characters: [],
-  status: Status.idle,
 }
 
-export const fetchCharacters = createAsyncThunk(FETCH_CHARACTERS, async () => {
-  const response = await fetch(`${BASE_URL}/character`)
-  return await response.json()
-})
-
 const characterSlice = createSlice({
-  name: REDUCER_NAME,
+  name: 'characters',
   initialState,
   reducers: {
-    setCharacters: (state, action: PayloadAction<Character[]>) => {
-      action.payload
-    },
-    addCharacter: (state, action: PayloadAction<Character>) => {
+    likeCharacter: (state, action: PayloadAction<LikedCharacters>) => {
       state.characters.push(action.payload)
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchCharacters.pending, (state) => {
-        state.status = Status.pending
-      })
-      .addCase(fetchCharacters.rejected, (state) => {
-        state.status = Status.rejected
-      })
-      .addCase(fetchCharacters.fulfilled, (state, action) => {
-        state.characters = action.payload.results
-        state.status = Status.fulfilled
-      })
+    unlikeCharacter: (state, action: PayloadAction<LikedCharacters>) => {
+      const index = state.characters.findIndex((character) => character.id === action.payload.id)
+      if (index !== -1) state.characters.splice(index, 1)
+    },
   },
 })
 
-export const statusSelector = (state: RootState) => state.characterSlice.status
 export const characterSelector = (state: RootState) => state.characterSlice.characters
-
-export const { setCharacters, addCharacter } = characterSlice.actions
+export const { likeCharacter, unlikeCharacter } = characterSlice.actions
 export default characterSlice.reducer
