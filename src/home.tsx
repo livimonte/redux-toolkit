@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from './app/hooks'
 import { characterSelector, likeCharacter, unlikeCharacter } from './features/characterSlice'
 import { Character, Characters } from './types/api'
 import { useListCharactersQuery } from './features/api'
-import { ButtonPagination, Loading } from './utils/ui'
+import { Button, ButtonPagination, Loading, Star } from './utils/ui'
 import { useDebounce, useDidMountEffect } from './utils/helpers'
 
 export function Home() {
@@ -16,8 +16,9 @@ export function Home() {
   const [searchInput, setSearchInput] = useState('')
   const { data = [] as Characters, isFetching } = useListCharactersQuery({ page, search })
 
+  // Show filtered or all data
   const charactersData =
-    showLiked && data.results?.length
+    showLiked && likedCharacters?.length && data.results?.length
       ? data.results.filter((c) => likedCharacters.find((x) => x.id === c.id))
       : data.results
 
@@ -45,17 +46,17 @@ export function Home() {
               <input
                 type="text"
                 placeholder="Search"
-                className="py-2 px-5 rounded-xl w-full"
+                className="py-2 px-5 rounded-xl w-full placeholder-zinc-400 border-none transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-600 focus:ring-offset-slate-500"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
               />
             </div>
-            <button
+            <Button
               onClick={() => setShowLiked((state) => !state)}
-              type="button"
-              className="px-2 text-white flex place-items-center">
-              Likes: {likedCharacters?.length}
-            </button>
+              disabled={!likedCharacters?.length}
+              className="flex place-items-center">
+              Filter Favorites ({likedCharacters?.length})
+            </Button>
           </header>
           <section className="bg-slate-300 p-5 rounded-2xl">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -78,7 +79,7 @@ export function Home() {
                           </figcaption>
                         </figure>
 
-                        <div className="absolute top-1 right-1 opacity-60 group-hover:opacity-95">
+                        <div className="absolute top-2 right-2 opacity-60 group-hover:opacity-95">
                           <button
                             onClick={() =>
                               liked
@@ -86,8 +87,8 @@ export function Home() {
                                 : dispatch(likeCharacter({ id: character.id }))
                             }
                             type="button"
-                            className="text-center text-sm rounded py-0 px-1 bg-white text-gray-700 font-bold">
-                            {liked ? 1 : 0}
+                            className="text-center text-sm rounded py-0 px-0 bg-white text-gray-700 hover:text-gray-500 transition-colors font-bold">
+                            {<Star active={!!liked} />}
                           </button>
                         </div>
                       </div>
