@@ -43,3 +43,8 @@ export const useDidMountEffect = (fn: Function, dependencies: Array<any>) => {
     else didMountRef.current = true
   }, dependencies)
 }
+
+export const sleep = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
