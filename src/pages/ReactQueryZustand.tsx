@@ -9,11 +9,10 @@ import { Character } from '../types/character'
 const ReactQueryZustand = () => {
   const [page, setPage] = useState(1) // React Local State
   const [showLiked, setShowLiked] = useState(false) // React Local State
-  const [searchFilter, setSearchFilter] = useState('') // React Local State
 
   const queryClient = useQueryClient() // React Query Client
 
-  const { liked, likeCharacter } = useCharacterStore() // Zustand Client State
+  const { liked, likeCharacter, searchFilter, setSearchFilter } = useCharacterStore() // Zustand Client State
 
   const handlePrevPage = () => {
     setPage((prev) => Math.max(prev - 1, 1))
