@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { useAppDispatch, useAppSelector } from './app/hooks'
-import { characterSelector, likeCharacter, unlikeCharacter } from './features/characterSlice'
-import { useListCharactersQuery } from './features/characterApi'
-import { Characters, Character } from './types/character'
-import { Button, ButtonPagination, Loading, Star } from './utils/ui'
-import { useDebounce, useDidMountEffect } from './utils/helpers'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { characterSelector, likeCharacter, unlikeCharacter } from '../features/characterSlice'
+import { useListCharactersQuery } from '../features/characterApi'
+import { Characters, Character } from '../types/character'
+import { Button, ButtonPagination, Loading, Star } from '../utils/ui'
+import { useDebounce, useDidMountEffect } from '../utils/helpers'
 
-export function Home() {
+export function Redux() {
   const dispatch = useAppDispatch()
   const likedCharacters = useAppSelector(characterSelector)
 
