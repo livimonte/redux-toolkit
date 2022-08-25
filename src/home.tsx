@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from './app/hooks'
 import { characterSelector, likeCharacter, unlikeCharacter } from './features/characterSlice'
-import { Character, Characters } from './types/api'
-import { useListCharactersQuery } from './features/api'
+import { useListCharactersQuery } from './features/characterApi'
+import { Characters, Character } from './types/character'
 import { Button, ButtonPagination, Loading, Star } from './utils/ui'
 import { useDebounce, useDidMountEffect } from './utils/helpers'
 

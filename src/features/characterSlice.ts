@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
-import { LikedCharacters } from '../types/api'
+import { LikedCharacters } from '../types/character'
 
 interface CharacterState {
   characters: LikedCharacters[]

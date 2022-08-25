@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Characters, ListParams } from '../types/api'
-
-const BASE_URL = 'https://rickandmortyapi.com/api/'
+import { Characters, ListParams } from '../types/character'
 
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
+    baseUrl: import.meta.env.VITE_API_URL,
   }),
   tagTypes: ['CHARACTERS'],
   endpoints(builder) {

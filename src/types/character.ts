@@ -30,13 +30,6 @@ export interface Characters {
   results?: Character[]
 }
 
-export enum Status {
-  idle = 'idle',
-  pending = 'pending',
-  rejected = 'rejected',
-  fulfilled = 'fulfilled',
-}
-
 export interface ListParams {
   page: number
   search?: string
