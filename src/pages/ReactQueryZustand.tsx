@@ -85,7 +85,7 @@ const ReactQueryZustand = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {data?.results
                 ?.filter((character) => !showLiked || liked.includes(character.id))
-                .map((character: Character) => (
+                .map((character) => (
                   <div
                     key={character.id}
                     className="group bg-white rounded-xl overflow-hidden relative drop-shadow-md">

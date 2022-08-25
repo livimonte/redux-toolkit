@@ -1,34 +1,34 @@
 import create from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, devtools } from 'zustand/middleware'
 
 type State = {
   liked: number[];
   likeCharacter: (id: number) => void;
 }
 
-const useCharacterStore = create(
-  persist<State>(
+const useCharacterStore = create<State>()(devtools(
+  persist(
     (set, get) => ({
       liked: [],
 
-      likeCharacter: (id: number) => {
+      likeCharacter: (id) => {
         const liked = get().liked
 
         const shouldLike = !liked.includes(id)
 
         if (shouldLike) {
-          useCharacterStore.setState({liked: [...liked, id]})
+          set({ liked: [...liked, id] }, false, { type: 'likeCharacter', id })
         } else {
-          useCharacterStore.setState({
+          set({
             liked: liked.filter((characterId) => characterId !== id)
-          })
+          }, false, { type: 'unlikeCharacter', id })
         }
       },
     }),
     {
       name: 'character-store', // unique name
     }
-  )
-)
+  ),
+))
 
 export { useCharacterStore }
