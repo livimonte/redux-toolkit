@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
-import { LikedCharacters } from '../types/character'
+import { Character } from '../types/character'
 
 interface CharacterState {
-  characters: LikedCharacters[]
+  characters: Character[]
 }
 
 const initialState: CharacterState = {
@@ -14,10 +14,10 @@ const characterSlice = createSlice({
   name: 'characters',
   initialState,
   reducers: {
-    likeCharacter: (state, action: PayloadAction<LikedCharacters>) => {
+    likeCharacter: (state, action: PayloadAction<Character>) => {
       state.characters.push(action.payload)
     },
-    unlikeCharacter: (state, action: PayloadAction<LikedCharacters>) => {
+    unlikeCharacter: (state, action: PayloadAction<Character>) => {
       const index = state.characters.findIndex((character) => character.id === action.payload.id)
       if (index !== -1) state.characters.splice(index, 1)
     },
