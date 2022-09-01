@@ -18,9 +18,7 @@ export function Redux() {
 
   // Show filtered or all data
   const charactersData =
-    showLiked && likedCharacters?.length && data.results?.length
-      ? data.results.filter((c) => likedCharacters.find((x) => x.id === c.id))
-      : data.results
+    showLiked && likedCharacters?.length && data.results?.length ? likedCharacters : data.results
 
   const handlePrevPage = () => setPage(page - 1)
   const handleNextPage = () => setPage(page + 1)
@@ -83,8 +81,8 @@ export function Redux() {
                           <button
                             onClick={() =>
                               liked
-                                ? dispatch(unlikeCharacter({ id: character.id }))
-                                : dispatch(likeCharacter({ id: character.id }))
+                                ? dispatch(unlikeCharacter(character))
+                                : dispatch(likeCharacter(character))
                             }
                             type="button"
                             className="text-center text-sm rounded py-0 px-0 bg-white text-gray-700 hover:text-gray-500 transition-colors font-bold">
